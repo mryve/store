@@ -4,6 +4,7 @@ import com.cy.store.entity.Address;
 import com.cy.store.service.IAddressService;
 import com.cy.store.util.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,6 +29,20 @@ public class AddressController extends BaseController {
     public JsonResult<List<Address>> getByUid(HttpSession session) {
         Integer uid = getUidFromSession(session);
         List<Address> list = service.getByUid(uid);
-        return new JsonResult<>(OK,list);
+        return new JsonResult<>(OK, list);
+    }
+
+    @RequestMapping("/{aid}/set_default")
+    public JsonResult<Void> setDefault(HttpSession session, @PathVariable("aid") Integer aid) {
+        Integer uid = getUidFromSession(session);
+        String username = getUsernameFromSession(session);
+        service.setIsDefault(uid, aid, username);
+        return new JsonResult<>(OK);
+    }
+
+    @RequestMapping("/{aid}/delete")
+    public JsonResult<Void> delete(@PathVariable("aid") Integer aid, HttpSession session) {
+        service.delete(aid, getUidFromSession(session), getUsernameFromSession(session));
+        return new JsonResult<>(OK);
     }
 }

@@ -4,10 +4,8 @@ import com.cy.store.entity.Address;
 import com.cy.store.mapper.AddressMapper;
 import com.cy.store.mapper.DistrictMapper;
 import com.cy.store.service.IAddressService;
-import com.cy.store.service.ex.AccessDeniedException;
-import com.cy.store.service.ex.AddressMaxCountException;
-import com.cy.store.service.ex.AddressNotFoundException;
-import com.cy.store.service.ex.UpdateException;
+import com.cy.store.service.ex.*;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -72,5 +70,30 @@ public class IAddressServiceImpl implements IAddressService {
             throw new UpdateException("Unknown update exception occurs");
         }
 
+    }
+
+    @Override
+    public void delete(Integer aid, Integer uid, String username) {
+        Address result = mapper.findByAid(aid);
+        if (result == null) {
+            throw new AddressNotFoundException("Address not found");
+        } else if (result.getUid() != uid) {
+            throw new AccessDeniedException("Access denied");
+        }
+        Boolean getIsDefault = result.getIsDefault() == 0;
+        int rows = mapper.deleteByAid(aid);
+        if (rows != 1) {
+            throw new DeleteException("Unknown delete exception happened");
+        }
+        List<Address> count = mapper.findByUid(uid);
+        if (count == null || getIsDefault) {
+            return;
+        } else {
+            Address lastModified = mapper.findLastModified(uid);
+            Integer isDefault = mapper.updateIsDefaultByAid(lastModified.getAid(), username, new Date());
+            if (isDefault != 1) {
+                throw new UpdateException("Unknown update exception happened");
+            }
+        }
     }
 }

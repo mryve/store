@@ -48,7 +48,6 @@
 						success:function (result) {
 							let list = result.data
 							for (let i = 0; i < list.length; i++) {
-
 								let city = "<option value='"+list[i].code+"'> "+list[i].name+"</option>"
 								$("#city-list").append(city)
 							}
@@ -73,7 +72,6 @@
 						success:function (result) {
 							let list = result.data
 							for (let i = 0; i < list.length; i++) {
-
 								let city = "<option value='"+list[i].code+"'> "+list[i].name+"</option>"
 								$("#area-list").append(city)
 							}
@@ -93,6 +91,7 @@
 						success:function (result) {
 							if (result.state == 200) {
 								alert("Add address success")
+								location.href = "/web/address.html"
 							} else {
 								alert(result.message)
 							}

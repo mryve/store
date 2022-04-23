@@ -15,4 +15,6 @@ public interface AddressMapper {
     Address findByAid(Integer aid);
     Integer updateNoneDefaultByUid(Integer uid);
     Integer updateIsDefaultByAid(Integer aid, String modifiedUser, Date modifiedTime);
+    Integer deleteByAid(Integer aid);
+    Address findLastModified(Integer uid);
 }

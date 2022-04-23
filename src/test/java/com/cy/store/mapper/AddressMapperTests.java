@@ -53,4 +53,14 @@ public class AddressMapperTests {
     public void updateIsDefault() {
         System.err.println(mapper.updateIsDefaultByAid(4,"admin", new Date()));
     }
+
+    @Test
+    public void deleteByAid() {
+        mapper.deleteByAid(4);
+    }
+
+    @Test
+    public void findLastModified() {
+        System.err.println(mapper.findLastModified(14));
+    }
 }

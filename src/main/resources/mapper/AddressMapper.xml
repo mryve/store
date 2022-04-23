@@ -24,6 +24,9 @@
                     values(#{aid}, #{uid}, #{name}, #{provinceName}, #{provinceCode}, #{cityName}, #{cityCode}, #{areaName}, #{areaCode}, #{zip},
                            #{address}, #{phone}, #{tel}, #{tag}, #{isDefault}, #{createdUser}, #{createdTime}, #{modifiedUser}, #{modifiedTime})
     </insert>
+    <delete id="deleteByAid">
+        delete from t_address where aid = #{aid}
+    </delete>
     <select id="countByUid" resultType="java.lang.Integer">
         select count(aid) from t_address where uid = #{uid}
     </select>
@@ -33,7 +36,12 @@
         from t_address where uid = #{uid} order by is_default DESC, created_time DESC
     </select>
     <select id="findByAid" resultMap="AddressEntity">
-        select aid, uid from t_address where aid = #{aid}
+        select aid, uid, name, province_name, province_code, city_name, city_code, area_name, area_code, zip,
+               address, phone, tel, tag, is_default, created_user, created_time, modified_user, modified_time
+        from t_address where aid = #{aid}
+    </select>
+    <select id="findLastModified" resultType="com.cy.store.entity.Address">
+        select * from t_address where uid = #{uid} order by modified_time DESC limit 0,1
     </select>
     <update id="updateNoneDefaultByUid">
         update t_address

@@ -18,13 +18,18 @@ public class AddressServiceTests {
     @Test
     public void addAddressTest() {
         Address address = new Address();
-        address.setUid(3);
-        service.addAddress(3, "Admin", address);
+        address.setUid(14);
+        service.addAddress(14, "Admin", address);
     }
 
     @Test
     public void setIsDefault() {
         service.setIsDefault(14,4, "admin");
+    }
+
+    @Test
+    public void delete() {
+        service.delete(5, 14, "admin");
     }
 
 }

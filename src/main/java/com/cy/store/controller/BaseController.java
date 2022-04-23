@@ -42,6 +42,15 @@ public class BaseController {
         } else if (e instanceof AddressMaxCountException) {
             result.setState(9001);
             result.setMessage("Over max address num");
+        }else if (e instanceof AccessDeniedException) {
+            result.setState(9002);
+            result.setMessage("Access denied");
+        }else if (e instanceof AddressNotFoundException) {
+            result.setState(9003);
+            result.setMessage("Address not found");
+        }else if (e instanceof AddressMaxCountException) {
+            result.setState(9001);
+            result.setMessage("Over max address num");
         }
         return result;
     }
